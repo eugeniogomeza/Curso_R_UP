@@ -1,0 +1,101 @@
+---
+title: "Ejemplo"
+author: "Eugenio Gómez"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+Aquí puedo escribir lo que quiera
+
+# Título
+
+### Título 3
+
+Para poner cursivas se usa asterisco y para negritas dos asteriscos
+
+*cursiva* **negritas**
+
+Para poner fórmula en el texto se usa signo de pesos $\delta$ 
+
+$$
+\sum_{n=1}^{10}n^2
+$$
+
+
+Para poner un hipervinculo se pone entre corchetes la palabra(s) y entre paréntesis el hipervínculo
+
+[Este es el vínculo](https://rpruim.github.io/s341/S19/from-class/MathinRmd.html)
+
+
+## Gráfica
+
+```{r include=FALSE}
+library(tidyverse)
+library(fredr)
+fredr_set_key("bf6a6d9ade210364071b4810d5635c59")
+```
+
+```{r InflacionUSA, include=FALSE}
+inflacionus <- map_dfr(c("CPIAUCSL", "CPILFESL"), fredr) # general y subyacente
+inflacionus <- inflacionus %>%  
+  group_by(series_id) %>% 
+  mutate(inflacion=(value/lag(value, n=12)-1)*100) 
+```
+
+```{r include=FALSE}
+usinflultimo <- inflacionus %>% 
+ filter(series_id == "CPIAUCSL") %>% 
+  slice(which.max(date))
+```
+
+```{r inflacion EUA, echo=FALSE}
+datosgrafica <- inflacionus %>% 
+  filter(date>="2020-01-01") 
+ggplot(datosgrafica, aes(date, inflacion)) +
+  geom_text(data = usinflultimo, aes(x = date, y = inflacion, label = sprintf("%0.1f", round(inflacion, digits = 1))), size = 3, hjust = -0.1) +
+  geom_line(aes(colour= series_id, linetype = series_id)) +
+  scale_colour_manual(values = c("#970639", "#053474", "#B79357", "#015B51"), labels = c("Total", "Subyacente")) +
+  scale_linetype_manual(values = c("solid", "solid", "dashed", "dotdash"), labels = c("Total", "Subyacente")) +
+  theme(legend.position = "bottom", legend.title = element_blank(), axis.line = element_line(color="black"), panel.background = element_rect(fill = NA), panel.grid.major.x = element_blank(), panel.grid.minor = element_blank(), panel.grid.major.y = element_line(color = "gray80"), axis.title = element_blank()) +
+  labs(title = "Índice de Precios al Consumidor",
+       subtitle = "Inflación anual",
+       caption = "Fuente: FRED") 
+```
+
+
+## Tabla
+
+```{r echo=FALSE, message=FALSE}
+knitr::opts_chunk$set(fig.crop = FALSE)
+library(flextable)
+set_flextable_defaults(fonts_ignore = TRUE)
+library(tidyverse)
+
+weo <- read_csv("data/WEOapr2026.csv", locale = locale(encoding = "UTF-8"))
+
+tabla_inflacion <- weo %>%
+  filter(
+    INDICATOR.ID == "PCPIEPCH",
+    COUNTRY.ID %in% c("MEX", "USA", "CAN"),
+    TIME_PERIOD %in% 2001:2005
+  ) %>%
+  mutate(TIME_PERIOD = as.integer(TIME_PERIOD)) %>%
+  select(COUNTRY, TIME_PERIOD, OBS_VALUE) %>%
+  pivot_wider(names_from = TIME_PERIOD, values_from = OBS_VALUE) %>%
+  arrange(COUNTRY)
+
+tabla_inflacion %>%
+  flextable() %>%
+  set_header_labels(COUNTRY = "País") %>%
+  colformat_double(j = 2:6, digits = 1, suffix = "%") %>%
+  bg(part = "header", bg = "#970639") %>%
+  color(part = "header", color = "white") %>%
+  bold(part = "header") %>%
+  align(align = "center", part = "all") %>%
+  align(j = 1, align = "left", part = "all") %>%
+  set_caption("Inflación fin de período, 2001–2005") %>%
+  autofit()
+```
