@@ -1,0 +1,2 @@
+"0","ggplot(datoseuropa, aes(x=reorder(country, -gdpPercap), y=gdpPercap)) +"
+"0","  geom_col(fill=""blue"")"

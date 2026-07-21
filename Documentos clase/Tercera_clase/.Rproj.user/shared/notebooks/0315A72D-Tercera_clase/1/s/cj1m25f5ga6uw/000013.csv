@@ -1,0 +1,1 @@
+"0","datoseuropa <- filter(gapminder, continent == ""Europe"", year == 2007, gdpPercap >= 35000)"

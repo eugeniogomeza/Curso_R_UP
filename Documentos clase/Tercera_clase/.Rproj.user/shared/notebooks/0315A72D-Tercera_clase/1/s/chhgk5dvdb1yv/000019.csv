@@ -1,0 +1,4 @@
+"0","ggplot(datosmexico, aes(x=year, y= gdpPercap)) +"
+"0","  geom_line(color= ""#015B51"", linetype = ""dashed"") +"
+"0","  geom_point(color= ""#015B51"") +"
+"0","  theme_minimal()"

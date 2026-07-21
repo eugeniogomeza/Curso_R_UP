@@ -1,0 +1,3 @@
+"0","inegiapi <- ""2842b8e5-a899-63af-cc62-dccaca5fa8db"""
+"0","datos <- c(""1general"" = ""910392"", ""2subyacente"" = ""910393"", ""3mercancias"" = ""910394"", ""4servicios"" = ""910395"", ""5nosubyacente"" = ""910396"", ""6agropecuarios"" = ""910397"", ""7energeticos"" = ""910398"") "
+"0","inflaciondata <- inegi_series_multiple(datos, inegiapi)  "

@@ -1,0 +1,4 @@
+"0","ggplot(datos1992, aes(x = gdpPercap, y = lifeExp, color=continent, size=pop)) + geom_point() +"
+"0","  scale_x_log10() +"
+"0","  labs(title=""Esperanza de vida vs PIB per capita"", subtitle = ""Datos de 1992"", x = ""PIB per cápita"", y =""Esperanza de vida"", color = ""Continente"", size = ""Población"", caption = ""Fuente: The Gapminder project"") +"
+"0","  theme_bw()"

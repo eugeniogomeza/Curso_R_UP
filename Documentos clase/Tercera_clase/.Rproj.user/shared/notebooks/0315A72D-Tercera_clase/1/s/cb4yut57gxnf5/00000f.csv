@@ -1,0 +1,1 @@
+"0","datosmexico <- filter(gapminder, country == ""Mexico"")"
