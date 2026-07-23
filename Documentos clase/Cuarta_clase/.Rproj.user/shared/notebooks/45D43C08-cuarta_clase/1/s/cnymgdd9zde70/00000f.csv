@@ -1,0 +1,5 @@
+"0","inflacion2 <- map_dfr(c(""CPIAUCSL"", ""CPILFESL"", ""PCEPI""), fredr) # general, less food and energy, personal consumption expenditures"
+"0","inflacion2 <- inflacion2 %>%"
+"0","  filter(date > ""2022-01-01"") |> "
+"0","  group_by(series_id) %>% "
+"0","  mutate(inf=(value/lag(value, n=12)-1)*100) "

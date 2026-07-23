@@ -1,0 +1,84 @@
+---
+title: "Cuarta_clase"
+author: "Eugenio Gómez"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r librerías y api, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(fredr)
+library(scales)
+library(hrbrthemes)
+library(gcookbook)
+fredr_set_key("bf6a6d9ade210364071b4810d5635c59")
+```
+
+
+```{r inflación general}
+inflacionusa <- fredr(series_id = "CPIAUCSL",
+                      observation_start = as.Date("2022-01-01"),
+                      units = "pc1")
+```
+
+```{r}
+inflacionusa2 <- fredr(series_id = "CPILFESL",
+                      observation_start = as.Date("2022-01-01"),
+                      units = "pc1") 
+```
+
+
+```{r}
+inflacionusac <- rbind(inflacionusa, inflacionusa2)
+```
+
+
+```{r}
+inflacion2 <- map_dfr(c("CPIAUCSL", "CPILFESL", "PCEPI"), fredr) # general, less food and energy, personal consumption expenditures
+inflacion2 <- inflacion2 %>%
+  filter(date > "2022-01-01") |> 
+  group_by(series_id) %>% 
+  mutate(inf=(value/lag(value, n=12)-1)*100) 
+```
+
+```{r}
+graficabasica <- ggplot(inflacionusa, aes(date, value)) +
+  geom_line(colour = "#881537", linetype = "dashed") +
+  labs(title = "Índice de Precios al Consumidor",
+       subtitle = "Inflación anual",
+       caption = "Fuente: FRED",
+       x = "Fecha")
+graficabasica
+```
+
+
+```{r}
+grafica2 <- graficabasica +
+  theme(panel.background = element_blank(), axis.line = element_line(color = "black"), axis.title = element_blank(), plot.title = element_text(face = "bold", size = rel(1.5)), plot.caption = element_text(face = "italic", colour = "blue", hjust = 0.5)) +
+          scale_y_continuous(labels = label_percent(scale = 1)) +
+          scale_x_date(date_labels = "%b %y", breaks = seq(as.Date(2022-01-01), max(inflacionusa$date), by = "6 months"))
+grafica2
+```
+
+
+
+```{r warning=FALSE}
+inflaciong <- ggplot(inflacion2, aes(date, inf)) +
+  theme_ipsum_rc() +
+  geom_line(aes(color = series_id, linetype = series_id)) +
+  coord_cartesian(xlim = as.Date(c("2023-01-01", max(inflacion2$date)))) +
+  scale_color_manual(values = c("#002D72", "#7a1a37", "#B9975B"), labels = c("CPI", "CPI less food and energy", "PCE")) +
+  scale_linetype_manual(values = c("solid", "dashed", "solid"), labels = c("CPI", "CPI less food and energy", "PCE")) +
+  theme(legend.title = element_blank(), legend.position = "bottom")
+  ggsave("grafica1.png", inflaciong, width = 12, height = 10, units = "cm")
+inflaciong
+```
+
+
+
+
+
+
+
+

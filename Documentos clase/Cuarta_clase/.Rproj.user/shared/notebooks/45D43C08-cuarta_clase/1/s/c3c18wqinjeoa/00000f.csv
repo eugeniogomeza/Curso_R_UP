@@ -1,0 +1,3 @@
+"0","inflacionusa2 <- fredr(series_id = ""CPILFESL"","
+"0","                      observation_start = as.Date(""2022-01-01""),"
+"0","                      units = ""pc1"") "

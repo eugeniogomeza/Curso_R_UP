@@ -1,0 +1,6 @@
+"0","library(tidyverse)"
+"0","library(fredr)"
+"0","library(scales)"
+"0","library(hrbrthemes)"
+"0","library(gcookbook)"
+"0","fredr_set_key(""bf6a6d9ade210364071b4810d5635c59"")"

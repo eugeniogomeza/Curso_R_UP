@@ -1,0 +1,6 @@
+"0","gt_tbl <- resumen |> "
+"0","  gt() |> "
+"0","  fmt_number(columns=c(promedio,minimo,maximo), decimals = 2) |> "
+"0","  cols_label(anio = ""Año"", promedio = ""Promedio"") |> "
+"0","  tab_header(title= ""Tipo de Cambio FIX"", subtitle = ""Pesos por dólar"")"
+"0","gt_tbl"

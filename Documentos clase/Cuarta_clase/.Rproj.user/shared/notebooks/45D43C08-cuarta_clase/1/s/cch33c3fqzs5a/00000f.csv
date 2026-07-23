@@ -1,0 +1,7 @@
+"0","graficabasica <- ggplot(inflacionusa, aes(date, value)) +"
+"0","  geom_line(colour = ""#881537"", linetype = ""dashed"") +"
+"0","  labs(title = ""Índice de Precios al Consumidor"","
+"0","       subtitle = ""Inflación anual"","
+"0","       caption = ""Fuente: FRED"","
+"0","       x = ""Fecha"")"
+"0","graficabasica"

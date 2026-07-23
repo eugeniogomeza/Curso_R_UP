@@ -1,0 +1,5 @@
+"0","datoslong <- datoslong %>% "
+"0","  mutate(Fecha2 = dmy(Fecha)) %>% "
+"0","  group_by(Tipo)  %>% "
+"0","   mutate(varanual = valores-lag(valores, n=12)) %>% "
+"0","   mutate(crecanual = ((valores/lag(valores, n=12))-1)*100)"

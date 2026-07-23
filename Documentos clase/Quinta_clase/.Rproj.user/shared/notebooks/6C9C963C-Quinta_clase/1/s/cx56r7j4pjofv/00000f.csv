@@ -1,0 +1,5 @@
+"0","datoslong <- pivot_longer(datoswide,"
+"0","                          cols = any_of(c(""Totales"", ""Permanentes"", ""Eventuales"", ""Urbanos"", ""Del_campo"")),"
+"0","                          names_to = ""Tipo"","
+"0","                          values_to = ""valores"""
+"0","                          )"
